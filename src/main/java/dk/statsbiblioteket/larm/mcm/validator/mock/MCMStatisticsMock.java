@@ -12,12 +12,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-@Path("PortalService.svc")
+//TODO
+@Path("/")
 public class MCMStatisticsMock {
 
 	private static final NumberFormat formatter = new DecimalFormat("###0.000");
 	
-	private static int sessionsID = 0; 
+	private static int sessionsID = 0;
 	private static final Map<String,List<String>> streamLogs = new HashMap<String, List<String>>();
 	
 	// The Java method will process HTTP GET requests

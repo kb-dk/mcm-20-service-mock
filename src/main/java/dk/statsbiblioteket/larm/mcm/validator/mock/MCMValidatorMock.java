@@ -7,19 +7,21 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-@Path("PortalService.svc/Object_Get")
+@Path("/Object")
 public class MCMValidatorMock {
 
+    // Path /Object/Get
+    @Path("/Get")
 	// The Java method will process HTTP GET requests
-	@GET 
+    @GET
 	// The Java method will produce content identified by the MIME Media
 	// type "text/plain"
 	@Produces("text/xml")
 	public String getMCMRetunValue(
-			@QueryParam("sessionID") String sessionID,
-			@QueryParam("objectID") String objectID, 
+			@QueryParam("sessionGUID") String sessionID,
+			@QueryParam("query") String objectID,
 			@QueryParam("includeFiles") boolean includeFiles) {
-		System.out.println("Request received wit parameters: [/Object_Get] " + new Date());
+        System.out.println("Request received with parameters: [/Object_Get] " + new Date());
 		System.out.println(" - sessionID   : " + sessionID + " (inserted in the Filename element)");
 		System.out.println(" - objectID    : " + objectID);
 		System.out.println(" - includeFiles: " + includeFiles);
@@ -32,6 +34,7 @@ public class MCMValidatorMock {
 					"</error>"; 
 		}
 		String returnValue;
+        objectID = objectID.replaceAll("^GUID:", "");
 		System.out.println("Generating return value...");
 		if (sessionID.equalsIgnoreCase("invalid")) {
 			returnValue = "<Exception>" +
@@ -50,35 +53,48 @@ public class MCMValidatorMock {
 								"</Stacktrace>" +
 							"</Exception>";
 		} else {
-			returnValue = "<ICollection TotalObjectCount=\"1\">" +
-								"<MCM.Data.DTO.ExtendedObjectInfo>" +
-									"<Phrases />" +
-									"<FileInfos>" +
-										"<MCM.Data.DTO.FileInfo>" +
-											"<ObjectID>" + objectID + "</ObjectID>" +
-											"<UploadURL> \\\\130.225.231.88\\g$\\DKA\\Kulturarv_MP3\\Batch01\\Disc02\\mp3_128kbps\\P3_2000_2200_890325_001.mp3</UploadURL>" +
-											"<DownloadURL>http://www.danskkulturarv.dk/PROXY/Preview01/Kulturarv_MP3/Batch01/Disc02/mp3_128kbps/P3_2000_2200_890325_001.mp3</DownloadURL>" +
-											"<StreamingURL>../Batch01/Disc02/mp3_128kbps/P3_2000_2200_890325_001.mp3</StreamingURL>" +
-											"<Format>MP3 128 kbit CBR</Format><MimeType>audio/mpeg</MimeType>" +
-											"<MediaTypeID>15225</MediaTypeID>" +
-											"<ID>" + objectID + "</ID>" +
-											"<Filename>" + sessionID + "</Filename>" +
-											"<OriginalFilename>P3_2000_2200_890325_001.mp3</OriginalFilename>" +
-											"<FolderPath>\\Batch01\\Disc02\\mp3_128kbps\\</FolderPath>" +
-											"<DateCreated>2010-07-16T17:37:12Z</DateCreated>" +
-											"<FileTypeID>1</FileTypeID>" +
-											"<FormatID>6</FormatID>" +
-											"<ByteSize>3</ByteSize>" +
-										"</MCM.Data.DTO.FileInfo>" +
-									"</FileInfos>" +
-									"<MetadataModifiedDate>2010-07-16T17:37:12Z</MetadataModifiedDate>" +
-									"<ObjectTypeName>Asset</ObjectTypeName>" +
-									"<ID>" + objectID + "</ID>" +
-									"<DateCreated>2010-07-16T17:37:00Z</DateCreated>" +
-									"<OwnerUserID>2</OwnerUserID>" +
-									"<ObjectTypeID>1</ObjectTypeID>" +
-								"</MCM.Data.DTO.ExtendedObjectInfo>" +
-							"</ICollection>";
+			returnValue = "<?xml version=\"1.0\"?>\n"
+                    + "<PortalResult Duration=\"1324\">\n"
+                    + "    <ModuleResults>\n"
+                    + "        <ModuleResult Fullname=\"MCM\" Duration=\"1308\" Count=\"1\" TotalCount=\"1\">\n"
+                    + "            <Results>\n"
+                    + "                <Result FullName=\"CHAOS.MCM.Data.DTO.Object\">\n"
+                    + "                    <GUID>" + objectID + "</GUID>\n"
+                    + "                    <ObjectTypeID>40</ObjectTypeID>\n"
+                    + "                    <DateCreated>13-06-2012 19:44:22</DateCreated>\n"
+                    + "                    <Metadatas/>\n"
+                    + "                    <Files>\n"
+                    + "                        <Result FullName=\"CHAOS.MCM.Data.DTO.FileInfo\">\n"
+                    + "                            <ID>27900</ID>\n"
+                    + "                            <Filename>" + sessionID + "</Filename>\n"
+                    + "                            <OriginalFilename>P3_2000_2200_890622_001.mp3</OriginalFilename>\n"
+                    + "                            <Token>RTMP Streaming</Token>\n"
+                    + "                            <URL>\n"
+                    + "                                rtmp://streaming.chaos.larm-archive.org/chaos_non/mp3:Kulturarv_MP3/Batch04/Disc11/mp3_128kbps/P3_2000_2200_890622_001.mp3\n"
+                    + "                            </URL>\n"
+                    + "                            <FormatID>6</FormatID>\n"
+                    + "                            <Format>MP3 128 kbit CBR</Format>\n"
+                    + "                            <FormatCategory>Audio Preview</FormatCategory>\n"
+                    + "                            <FormatType>Audio</FormatType>\n"
+                    + "                        </Result>\n"
+                    + "                        <Result FullName=\"CHAOS.MCM.Data.DTO.FileInfo\">\n"
+                    + "                            <ID>50007</ID>\n"
+                    + "                            <Filename>P3_logo.png</Filename>\n"
+                    + "                            <OriginalFilename>P3_logo.png</OriginalFilename>\n"
+                    + "                            <Token>HTTP Download</Token>\n"
+                    + "                            <URL>http://s3-eu-west-1.amazonaws.com/mcm/LarmLogos/P3_logo.png</URL>\n"
+                    + "                            <FormatID>5</FormatID>\n"
+                    + "                            <Format>PNG</Format>\n"
+                    + "                            <FormatCategory>Thumbnail</FormatCategory>\n"
+                    + "                            <FormatType>Image</FormatType>\n"
+                    + "                        </Result>\n"
+                    + "                    </Files>\n"
+                    + "                    <ObjectRelations/>\n"
+                    + "                </Result>\n"
+                    + "            </Results>\n"
+                    + "        </ModuleResult>\n"
+                    + "    </ModuleResults>\n"
+                    + "</PortalResult>";
 		}
 		System.out.println("Return value generated: \n" + returnValue);
 
