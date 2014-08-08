@@ -21,7 +21,7 @@ public class Main {
 			  GrizzlyWebContainerFactory.create(baseUri, initParams);
 		  System.out.println(String.format(
 				  "Jersey app started with WADL available at %sapplication.wadl\n" + 
-				  "Try out %sObject/Get?sessionGUID=fa49caf1-0586-4ee3-b4c3-1ab823ba108f&objectGuids=84802737-4910-d941-a7f0-14e4bdf1bc4d&includeMetadata=true&includeFiles=true\nHit enter to stop it...", baseUri, baseUri));
+				  "Try out %sObject/Get?sessionGUID=fa49caf1-0586-4ee3-b4c3-1ab823ba108f&objectGUID=84802737-4910-d941-a7f0-14e4bdf1bc4d&includeMetadata=true&includeFiles=true\nHit enter to stop it...", baseUri, baseUri));
 		  System.in.read();
 		  threadSelector.stopEndpoint();
 		  System.exit(0);

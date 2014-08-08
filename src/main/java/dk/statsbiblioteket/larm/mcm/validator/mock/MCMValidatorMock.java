@@ -19,7 +19,7 @@ public class MCMValidatorMock {
 	@Produces("text/xml")
 	public String getMCMRetunValue(
 			@QueryParam("sessionGUID") String sessionID,
-			@QueryParam("objectGuids") String objectID,
+			@QueryParam("objectGUID") String objectID,
 			@QueryParam("includeFiles") boolean includeFiles) {
         System.out.println("Request received with parameters: [/Object_Get] " + new Date());
 		System.out.println(" - sessionID   : " + sessionID + " (inserted in the Filename element)");
@@ -27,9 +27,9 @@ public class MCMValidatorMock {
 		System.out.println(" - includeFiles: " + includeFiles);
 		if (sessionID==null||objectID==null) {
 			return "<error>" +
-					"<message>An error occured. Parameters sessionGUID and objectGuids must be specified</message>" +
+					"<message>An error occured. Parameters sessionGUID and objectGUID must be specified</message>" +
 					"<sessionGUID>" + sessionID + "</sessionGUID>" +
-					"<objectGuids>" + objectID + "</objectGuids>" +
+					"<objectGUID>" + objectID + "</objectGUID>" +
 					"<includeFiles>" + includeFiles + "</includeFiles>" +
 					"</error>"; 
 		}
